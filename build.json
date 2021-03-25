@@ -3,7 +3,7 @@
     "mac": {
       "package": [
         "tar.gz",
-        "dmg",
+        "pkg",
         "zip"
       ],
       "arch": ["x64"]
