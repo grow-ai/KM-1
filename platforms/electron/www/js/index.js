@@ -16,9 +16,53 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+WebPDecodeAndDraw = function (data) {
+    var decoder = new WebPDecoder();
+
+    var bitmap = decoder.WebPDecode(data, data.length);
+
+    if (bitmap) {
+        //Draw Image
+        var output = ctx.createImageData(canvas.width, canvas.height);
+        var biWidth = canvas.width;
+        var outputData = output.data;
+        for (var h = 0; h < canvas.height; h++) {
+            for (var w = 0; w < canvas.width; w++) {
+                outputData[0 + w * 4 + (biWidth * 4) * h] = bitmap[0 + w * 4 + (biWidth * 4) * h];
+                outputData[1 + w * 4 + (biWidth * 4) * h] = bitmap[1 + w * 4 + (biWidth * 4) * h];
+                outputData[2 + w * 4 + (biWidth * 4) * h] = bitmap[2 + w * 4 + (biWidth * 4) * h];
+                outputData[3 + w * 4 + (biWidth * 4) * h] = bitmap[3 + w * 4 + (biWidth * 4) * h];
+            };
+        }
+
+        ctx.putImageData(output, 0, 0);
+
+        var dataURL = canvas.toDataURL("image/png");
+
+        document.getElementById("dec").src = dataURL;
+
+    }
+};
+
+
+function getImage(img) {
+    // Create an empty canvas element
+    canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    // Copy the image contents to the canvas
+    ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    WebPDecodeAndDraw(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height)['data']);
+}
+
+
 var app = {
     // Application Constructor
-    initialize: function() {
+    initialize: function () {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
         // Disabling form submissions if there are invalid fields
         this.disableFormSubmission();
@@ -28,7 +72,7 @@ var app = {
     //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
-    onDeviceReady: function() {
+    onDeviceReady: function () {
         if (this.hasGetUserMedia()) {
             console.log('You are all set!');
             this.takePicture();
@@ -37,13 +81,13 @@ var app = {
         }
     },
 
-    disableFormSubmission: function() {
-        window.addEventListener('load', function() {
+    disableFormSubmission: function () {
+        window.addEventListener('load', function () {
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             const forms = document.getElementsByClassName('needs-validation');
             // Loop over them and prevent submission
-            Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
                     if (form.checkValidity() === false) {
                         event.preventDefault();
                         event.stopPropagation();
@@ -70,24 +114,25 @@ var app = {
         const canvas = document.createElement('canvas');
 
         const constraints = {
-            video: {width: {exact: 200}, height: {exact: 150}}
+            video: { width: { exact: 200 }, height: { exact: 150 } }
         };
 
-        captureVideoButton.onclick = function() {
+        captureVideoButton.onclick = function () {
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(handleSuccess)
                 .catch(handleError);
         };
 
-        screenshotButton.onclick = function() {
+        screenshotButton.onclick = function () {
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0);
             // Other browsers will fall back to image/png
-            img.src = canvas.toDataURL('image/webp');
+            img.src = canvas.toDataURL('image/png');
+            app.ProcessImage();
             // If the video source Object is set, stop all tracks
             if (video.srcObject) {
-                video.srcObject.getTracks().forEach(function(track) {
+                video.srcObject.getTracks().forEach(function (track) {
                     track.stop();
                 });
             }
@@ -101,7 +146,112 @@ var app = {
         function handleError(error) {
             console.error('Error: ', error);
         }
+    },
+
+    DetectFaces: function (imageData) {
+        AWS.region = "us-west-2";
+        var rekognition = new AWS.Rekognition();
+        var params = {
+            Image: {
+                Bytes: imageData
+            },
+            Attributes: [
+                'ALL',
+            ]
+        };
+        rekognition.detectFaces(params, function (err, data) {
+            if (err) console.log(err, err.stack); // an error occurred
+            else {
+                var table = "<table><tr><th>Low</th><th>High</th></tr>";
+                // show each face and build out estimated age table
+                console.log(data);
+                for (var i = 0; i < data.FaceDetails.length; i++) {
+                    table += '<tr><td>' + data.FaceDetails[i].AgeRange.Low +
+                        '</td><td>' + data.FaceDetails[i].AgeRange.High + '</td></tr>';
+                }
+                table += "</table>";
+                document.getElementById("opResult").innerHTML = table;
+            }
+        });
+    },
+    //Loads selected image and unencodes image bytes for Rekognition DetectFaces API
+    ProcessImage: function () {
+        console.log('start');
+        app.AnonLog();
+        var control = document.getElementById("profile-image");
+        console.log('control');
+        console.log(control);
+        var file;// = control.files[0];
+
+        fetch(control.src)
+            .then(res => res.blob())
+            .then(blob => {
+                file = new File([blob], 'dot.png', blob)
+                console.log(file)
+            })
+            .then(() => {
+                var reader = new FileReader();
+                reader.onload = (function (theFile) {
+                    return function (e) {
+                        var img = document.createElement('img');
+                        var image = null;
+                        img.src = e.target.result;
+                        var jpg = true;
+                        try {
+                            image = atob(e.target.result.split("data:image/jpeg;base64,")[1]);
+
+                        } catch (e) {
+                            jpg = false;
+                        }
+                        if (jpg == false) {
+                            try {
+                                image = atob(e.target.result.split("data:image/png;base64,")[1]);
+                            } catch (e) {
+                                alert("Not an image file Rekognition can process");
+                                return;
+                            }
+                        }
+                        //unencode image bytes for Rekognition DetectFaces API 
+                        var length = image.length;
+                        imageBytes = new ArrayBuffer(length);
+                        var ua = new Uint8Array(imageBytes);
+                        for (var i = 0; i < length; i++) {
+                            ua[i] = image.charCodeAt(i);
+                        }
+                        //Call Rekognition  
+                        app.DetectFaces(imageBytes);
+                    };
+                })(file);
+                reader.readAsDataURL(file);
+            })
+
+        // Load base64 encoded image 
+
+    },
+    //Provides anonymous log on to AWS services
+    AnonLog: function () {
+
+        // Configure the credentials provider to use your identity pool
+        AWS.config.region = 'us-west-2'; // Region
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: 'us-west-2:705b1756-662c-4d6b-8f85-c6201a6a150e',
+        });
+        // Make the call to obtain credentials
+        AWS.config.credentials.get(function () {
+            // Credentials will be available when this function is called.
+            var accessKeyId = AWS.config.credentials.accessKeyId;
+            var secretAccessKey = AWS.config.credentials.secretAccessKey;
+            var sessionToken = AWS.config.credentials.sessionToken;
+        });
     }
 };
+
+// document.getElementById("profile-image").addEventListener("change", function (event) {
+//     ProcessImage();
+// }, false);
+
+//Calls DetectFaces API and shows estimated ages of detected faces
+
+
 
 app.initialize();

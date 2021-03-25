@@ -30,5 +30,4 @@
     <platform name="electron">
         <preference name="ElectronSettingsFilePath" value="res/electron/settings.json" />
     </platform>
-    <icon src="res/icons8-darth-vader-512.png" />
 </widget>

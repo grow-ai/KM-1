@@ -23,7 +23,11 @@
         },
         "platforms": [
             "electron",
-            "android"
+            "android",
+            "ios"
         ]
+    },
+    "devDependencies": {
+        "cordova-ios": "^6.2.0"
     }
 }
