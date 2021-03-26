@@ -3,16 +3,10 @@
   "display": "standalone",
   "orientation": "any",
   "start_url": "index.html",
-  "name": "DemoApp",
-  "short_name": "DemoApp",
+  "name": "Grow.ai",
+  "short_name": "Grow.ai",
   "version": "com.demo.app",
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
   "author": "Apache Cordova Team",
-  "icons": [
-    {
-      "src": "res/icons8-darth-vader-512.png",
-      "type": "image/png",
-      "sizes": "undefinedxundefined"
-    }
-  ]
+  "icons": []
 }
