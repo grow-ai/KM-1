@@ -5,8 +5,8 @@
   "start_url": "index.html",
   "name": "Grow.ai",
   "short_name": "Grow.ai",
-  "version": "com.demo.app",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
-  "author": "Apache Cordova Team",
+  "version": "com.growai.app",
+  "description": "Grow.ai",
+  "author": "Grow.ai Team",
   "icons": []
 }
