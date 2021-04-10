@@ -25,8 +25,8 @@ var app = {
 
     takePicture: function () {
         const captureVideoButton = document.querySelector('#open-camera');
-        const screenshotButton = document.querySelector('#camera-capture');
-        const img = document.querySelector('#profile-image');
+        const screenshotButton1 = document.querySelector('#camera-capture1');
+        const img1 = document.querySelector('#profile-image1');
         const video = document.querySelector('#video-container');
 
         const canvas = document.createElement('canvas');
@@ -41,13 +41,15 @@ var app = {
                 .catch(handleError);
         };
 
-        screenshotButton.onclick = function () {
+        screenshotButton1.onclick = function () {
+            console.log('image 1');
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0);
             // Other browsers will fall back to image/png
-            img.src = canvas.toDataURL('image/png');
-            app.ProcessImage();
+            img1.src = canvas.toDataURL('image/png');
+            // TODO: process image:
+            // app.ProcessImage();
             // If the video source Object is set, stop all tracks
             if (video.srcObject) {
                 video.srcObject.getTracks().forEach(function (track) {
@@ -57,7 +59,7 @@ var app = {
         };
 
         function handleSuccess(stream) {
-            screenshotButton.disabled = false;
+            screenshotButton1.disabled = false;
             video.srcObject = stream;
         }
 
