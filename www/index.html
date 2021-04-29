@@ -32,9 +32,11 @@
   <!-- Page plugins -->
   <!-- Argon CSS -->
   <link rel="stylesheet" href="./assets/css/argon.css?v=1.2.0" type="text/css">
-
-  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.16.0.js"></script>
-
+<!--
+  <script src="js/aws-cognito-sdk.min.js"></script>
+  <script src="js/amazon-cognito-identity.min.js"></script> -->
+  <!--<script src="js/aws-sdk-2.16.0.js"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aws-sdk/2.892.0/aws-sdk.js"></script>
 
 </head>
 
@@ -43,9 +45,10 @@
   <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
     <div class="scrollbar-inner">
       <!-- Brand -->
-      <div class="sidenav-header  align-items-center">
-        <a class="navbar-brand" href="javascript:void(0)">
-          <img src="./assets/img/brand/blue.png" class="navbar-brand-img" alt="...">
+      <div class="padding">
+        <a href="javascript:void(0)">
+          <!-- <img src="./assets/img/brand/blue.png" class="navbar-brand-img" alt="..."> -->
+          <img src="./assets/img/brand/growailogo.svg" width="150px">
         </a>
       </div>
       <div class="navbar-inner">
@@ -365,16 +368,25 @@
               <div class="card card-stats">
                 <!-- Card body -->
                 <div class="card-body">
-                  <div class="col text-center">
-                    <h6 class="h2 text-muted d-inline-block mb-0 mr-4">Plant 1</h6>
-                    <img src="assets\img\icons\common\farming.svg" width="150" height="150" id="profile-image1">
+                  <div class="text-center">
+                    <div>
+                      <h6 class="h2 text-muted d-inline-block mb-0 mr-4">New Plant</h6>
+                    </div>
+                    <img src="assets\img\icons\common\farming.svg" width="150" id="profile-image1">
                     <p class="mt-3 mb-3 text-sm">
-                      <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                      <span class="text-nowrap">Since last week</span>
+                      <!-- <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48</span> -->
+                      <div class="text-nowrap">
+                        Plant diagnostic:
+                        <span id="plant-label1"></span>
+                      </div>
+                      <div class="text-nowrap">
+                        Certainty:
+                        <span id="certainty1"></span>
+                      </div>
                     </p>
-                    <button id="open-camera" type="button" class="btn btn-primary" data-toggle="modal"
+                    <button id="open-camera1" type="button" class="btn btn-primary" data-toggle="modal"
                       data-target="#camera-modal1">
-                      Take Picture
+                      Scan
                     </button>
                     <div class="modal fade" id="camera-modal1" tabindex="-1" role="dialog"
                       aria-labelledby="camera-modal-label" aria-hidden="true">
@@ -401,20 +413,58 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header bg-primary pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <h1 class="card-title text-uppercase text-white mb-0">Today's Tasks</h1>
+            </div>
+          </div>
+          <!-- Camera 2 -->
+          <div class="row">
             <div class="col-xl-3 col-md-6">
               <div class="card card-stats">
                 <!-- Card body -->
                 <div class="card-body">
-                  <div class="col text-center">
-                    <h6 class="h2 text-muted d-inline-block mb-0 mr-4">Plant 2</h6>
-                    <img src="assets\img\icons\common\farming.svg" width="150" height="150" id="profile-image2">
+                  <div>
+                    <img src="assets\img\icons\common\overwater2.jpg" width="100" id="profile-image2" class="rounded-corners">
+                    <div class="d-inline-block">
+                        <h2 class="tab">Indica</h2>
+                        <h4 class="tab text-muted">Condition: Overwatered</h4>
+                    </div>
                     <p class="mt-3 mb-3 text-sm">
-                      <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                      <span class="text-nowrap">Since last week</span>
+                      <!-- <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48</span> -->
+                      <!-- <span class="text-nowrap">Plant diagnostic:
+                        <span id="plant-label2"></span></span> -->
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                          <label class="form-check-label" for="flexCheckDefault">
+                            Poke some air holes to provide extra oxygen to the roots
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                          <label class="form-check-label" for="flexCheckDefault">
+                            Spray little water
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                          <label class="form-check-label" for="flexCheckDefault">
+                            Leave out to the sun
+                          </label>
+                        </div>
                     </p>
-                    <button id="open-camera" type="button" class="btn btn-primary" data-toggle="modal"
+                    <button id="open-camera2" type="button" class="btn btn-primary" data-toggle="modal"
                       data-target="#camera-modal2">
-                      Take Picture
+                      Update status
                     </button>
                     <div class="modal fade" id="camera-modal2" tabindex="-1" role="dialog"
                       aria-labelledby="camera-modal-label" aria-hidden="true">
@@ -441,20 +491,39 @@
                 </div>
               </div>
             </div>
+          </div>
+          <!-- Camera 3 -->
+          <div class="row">
             <div class="col-xl-3 col-md-6">
               <div class="card card-stats">
                 <!-- Card body -->
                 <div class="card-body">
-                  <div class="col text-center">
-                    <h6 class="h2 text-muted d-inline-block mb-0 mr-4">Plant 3</h6>
-                    <img src="assets\img\icons\common\farming.svg" width="150" height="150" id="profile-image3">
+                  <div>
+                    <img src="assets\img\icons\common\potassium1.jpg" width="100" id="profile-image3" class="rounded-corners">
+                    <div class="d-inline-block">
+                        <h2 class="tab">Sativa</h2>
+                        <h4 class="tab text-muted">Condition: Potassium Deficiency</h4>
+                    </div>
                     <p class="mt-3 mb-3 text-sm">
-                      <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                      <span class="text-nowrap">Since last week</span>
+                      <!-- <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48</span> -->
+                      <!-- <span class="text-nowrap">Plant diagnostic:
+                        <span id="plant-label3"></span></span> -->
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                          <label class="form-check-label" for="flexCheckDefault">
+                            Check for light burn
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                          <label class="form-check-label" for="flexCheckDefault">
+                            Change soil
+                          </label>
+                        </div>
                     </p>
-                    <button id="open-camera" type="button" class="btn btn-primary" data-toggle="modal"
+                    <button id="open-camera3" type="button" class="btn btn-primary" data-toggle="modal"
                       data-target="#camera-modal3">
-                      Take Picture
+                      Update status
                     </button>
                     <div class="modal fade" id="camera-modal3" tabindex="-1" role="dialog"
                       aria-labelledby="camera-modal-label" aria-hidden="true">
@@ -481,20 +550,39 @@
                 </div>
               </div>
             </div>
+          </div>
+          <!-- Camera 4 -->
+          <div class="row">
             <div class="col-xl-3 col-md-6">
               <div class="card card-stats">
                 <!-- Card body -->
                 <div class="card-body">
-                  <div class="col text-center">
-                    <h6 class="h2 text-muted d-inline-block mb-0 mr-4">Plant 4</h6>
-                    <img src="assets\img\icons\common\farming.svg" width="150" height="150" id="profile-image4">
+                  <div>
+                    <img src="assets\img\icons\common\phosphorus1.jpg" width="100" id="profile-image4" class="rounded-corners">
+                    <div class="d-inline-block">
+                        <h2 class="tab">Hybrid</h2>
+                        <h4 class="tab text-muted">Condition: Phosphorus Deficiency</h4>
+                    </div>
                     <p class="mt-3 mb-3 text-sm">
-                      <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                      <span class="text-nowrap">Since last week</span>
+                      <!-- <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48</span> -->
+                      <!-- <span class="text-nowrap">Plant diagnostic:
+                        <span id="plant-label4"></span></span> -->
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                          <label class="form-check-label" for="flexCheckDefault">
+                            Adjust pH to correct range
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                          <label class="form-check-label" for="flexCheckDefault">
+                            Flush plant thoroughly with proper pH'ed water
+                          </label>
+                        </div>
                     </p>
-                    <button id="open-camera" type="button" class="btn btn-primary" data-toggle="modal"
+                    <button id="open-camera4" type="button" class="btn btn-primary" data-toggle="modal"
                       data-target="#camera-modal4">
-                      Take Picture
+                      Update status
                     </button>
                     <div class="modal fade" id="camera-modal4" tabindex="-1" role="dialog"
                       aria-labelledby="camera-modal-label" aria-hidden="true">
@@ -525,6 +613,7 @@
         </div>
       </div>
     </div>
+
     <!-- Page content -->
     <div class="container-fluid mt--6">
       <div class="row">

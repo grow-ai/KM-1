@@ -14,7 +14,7 @@ var s3 = new AWS.S3({
 function listAlbums() {
     s3.listObjects({ Delimiter: "/" }, function (err, data) {
         if (err) {
-            return alert("There was an error listing your albums: " + err.message);
+            return console.log("There was an error listing your albums: " + err.message);
         } else {
             var albums = data.CommonPrefixes.map(function (commonPrefix) {
                 var prefix = commonPrefix.Prefix;
@@ -40,7 +40,7 @@ function listAlbums() {
                 "<ul>",
                 getHtml(albums),
                 "</ul>",
-                "<button onclick=\"createAlbum(prompt('Enter Album Name:'))\">",
+                "<button onclick=\"createAlbum('album1')\">",
                 "Create New Album",
                 "</button>"
             ];
@@ -52,24 +52,24 @@ function listAlbums() {
 function createAlbum(albumName) {
     albumName = albumName.trim();
     if (!albumName) {
-        return alert("Album names must contain at least one non-space character.");
+        return console.log("Album names must contain at least one non-space character.");
     }
     if (albumName.indexOf("/") !== -1) {
-        return alert("Album names cannot contain slashes.");
+        return console.log("Album names cannot contain slashes.");
     }
     var albumKey = encodeURIComponent(albumName);
     s3.headObject({ Key: albumKey }, function (err, data) {
         if (!err) {
-            return alert("Album already exists.");
+            return console.log("Album already exists.");
         }
         if (err.code !== "NotFound") {
-            return alert("There was an error creating your album: " + err.message);
+            return console.log("There was an error creating your album: " + err.message);
         }
         s3.putObject({ Key: albumKey }, function (err, data) {
             if (err) {
-                return alert("There was an error creating your album: " + err.message);
+                return console.log("There was an error creating your album: " + err.message);
             }
-            alert("Successfully created album.");
+            console.log("Successfully created album.");
             viewAlbum(albumName);
         });
     });
@@ -79,7 +79,7 @@ function viewAlbum(albumName) {
     var albumPhotosKey = encodeURIComponent(albumName) + "/";
     s3.listObjects({ Prefix: albumPhotosKey }, function (err, data) {
         if (err) {
-            return alert("There was an error viewing your album: " + err.message);
+            return console.log("There was an error viewing your album: " + err.message);
         }
         // 'this' references the AWS.Response instance that represents the response
         var href = this.request.httpRequest.endpoint.href;
@@ -134,7 +134,7 @@ function viewAlbum(albumName) {
 function addPhoto(albumName) {
     var files = document.getElementById("photoupload").files;
     if (!files.length) {
-        return alert("Please choose a file to upload first.");
+        return console.log("Please choose a file to upload first.");
     }
     var file = files[0];
     var fileName = file.name;
@@ -155,11 +155,11 @@ function addPhoto(albumName) {
 
     promise.then(
         function (data) {
-            alert("Successfully uploaded photo.");
+            console.log("Successfully uploaded photo.");
             viewAlbum(albumName);
         },
         function (err) {
-            return alert("There was an error uploading your photo: ", err.message);
+            return console.log("There was an error uploading your photo: ", err.message);
         }
     );
 }
@@ -167,9 +167,9 @@ function addPhoto(albumName) {
 function deletePhoto(albumName, photoKey) {
     s3.deleteObject({ Key: photoKey }, function (err, data) {
         if (err) {
-            return alert("There was an error deleting your photo: ", err.message);
+            return console.log("There was an error deleting your photo: ", err.message);
         }
-        alert("Successfully deleted photo.");
+        console.log("Successfully deleted photo.");
         viewAlbum(albumName);
     });
 }
@@ -178,7 +178,7 @@ function deleteAlbum(albumName) {
     var albumKey = encodeURIComponent(albumName) + "/";
     s3.listObjects({ Prefix: albumKey }, function (err, data) {
         if (err) {
-            return alert("There was an error deleting your album: ", err.message);
+            return console.log("There was an error deleting your album: ", err.message);
         }
         var objects = data.Contents.map(function (object) {
             return { Key: object.Key };
@@ -189,9 +189,9 @@ function deleteAlbum(albumName) {
             },
             function (err, data) {
                 if (err) {
-                    return alert("There was an error deleting your album: ", err.message);
+                    return console.log("There was an error deleting your album: ", err.message);
                 }
-                alert("Successfully deleted album.");
+                console.log("Successfully deleted album.");
                 listAlbums();
             }
         );
@@ -214,7 +214,7 @@ var app = {
             console.log('You are all set!');
             this.takePicture();
         } else {
-            alert('getUserMedia() is not supported by your browser :/');
+            console.log('getUserMedia() is not supported by your browser :/');
         }
     },
 
@@ -223,10 +223,12 @@ var app = {
             navigator.mediaDevices.getUserMedia);
     },
 
+
     takePicture: function () {
-        const captureVideoButton = document.querySelector('#open-camera');
-        const screenshotButton1 = document.querySelector('#camera-capture1');
-        const img1 = document.querySelector('#profile-image1');
+        const captureVideoButton = document.querySelector('#open-camera1');
+        const screenshotButton = document.querySelector('#camera-capture1');
+        const img = document.querySelector('#profile-image1');
+
         const video = document.querySelector('#video-container');
 
         const canvas = document.createElement('canvas');
@@ -241,15 +243,16 @@ var app = {
                 .catch(handleError);
         };
 
-        screenshotButton1.onclick = function () {
+
+        screenshotButton.onclick = function () {
             console.log('image 1');
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0);
             // Other browsers will fall back to image/png
-            img1.src = canvas.toDataURL('image/png');
+            img.src = canvas.toDataURL('image/png');
             // TODO: process image:
-            // app.ProcessImage();
+            app.ProcessImage();
             // If the video source Object is set, stop all tracks
             if (video.srcObject) {
                 video.srcObject.getTracks().forEach(function (track) {
@@ -258,8 +261,9 @@ var app = {
             }
         };
 
+
         function handleSuccess(stream) {
-            screenshotButton1.disabled = false;
+            screenshotButton.disabled = false;
             video.srcObject = stream;
         }
 
@@ -269,36 +273,31 @@ var app = {
     },
 
     DetectFaces: function (imageData) {
-        AWS.region = "us-west-2";
+        AWS.region = "us-east-2";
         var rekognition = new AWS.Rekognition();
         var params = {
             Image: {
                 Bytes: imageData
             },
-            Attributes: [
-                'ALL',
-            ]
+            // ProjectVersionArn: 'arn:aws:rekognition:us-east-2:053765585733:project/grow-ai/version/grow-ai.2021-04-15T03.01.50/1618480910563',
+            ProjectVersionArn: 'arn:aws:rekognition:us-east-2:053765585733:project/grow-ai/version/grow-ai.2021-04-29T01.47.57/1619686077450'
         };
-        rekognition.detectFaces(params, function (err, data) {
+        rekognition.detectCustomLabels(params, function (err, data) {
             if (err) console.log(err, err.stack); // an error occurred
             else {
-                var table = "<table><tr><th>Low</th><th>High</th></tr>";
-                // show each face and build out estimated age table
                 console.log(data);
-                for (var i = 0; i < data.FaceDetails.length; i++) {
-                    table += '<tr><td>' + data.FaceDetails[i].AgeRange.Low +
-                        '</td><td>' + data.FaceDetails[i].AgeRange.High + '</td></tr>';
-                }
-                table += "</table>";
-                document.getElementById("opResult").innerHTML = table;
+                var plant_label = document.getElementById("plant-label1");
+                plant_label.innerHTML = data["CustomLabels"][0]["Name"];
+                var certainty = document.getElementById("certainty1");
+                certainty.innerHTML = data["CustomLabels"][0]["Confidence"]
             }
         });
     },
     //Loads selected image and unencodes image bytes for Rekognition DetectFaces API
     ProcessImage: function () {
-        console.log('start');
+        console.log('processing image');
         app.AnonLog();
-        var control = document.getElementById("profile-image");
+        var control = document.getElementById("profile-image1");
         console.log('control');
         console.log(control);
         var file;// = control.files[0];
@@ -327,34 +326,34 @@ var app = {
                             try {
                                 image = atob(e.target.result.split("data:image/png;base64,")[1]);
                             } catch (e) {
-                                alert("Not an image file Rekognition can process");
+                                console.log("Not an image file Rekognition can process");
                                 return;
                             }
                         }
-                        //unencode image bytes for Rekognition DetectFaces API 
+                        //unencode image bytes for Rekognition DetectFaces API
                         var length = image.length;
                         imageBytes = new ArrayBuffer(length);
                         var ua = new Uint8Array(imageBytes);
                         for (var i = 0; i < length; i++) {
                             ua[i] = image.charCodeAt(i);
                         }
-                        //Call Rekognition  
+                        //Call Rekognition
                         app.DetectFaces(imageBytes);
                     };
                 })(file);
                 reader.readAsDataURL(file);
             })
 
-        // Load base64 encoded image 
+        // Load base64 encoded image
 
     },
     //Provides anonymous log on to AWS services
     AnonLog: function () {
 
         // Configure the credentials provider to use your identity pool
-        AWS.config.region = 'us-west-2'; // Region
+        AWS.config.region = 'us-east-2'; // Region
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-            IdentityPoolId: 'us-west-2:705b1756-662c-4d6b-8f85-c6201a6a150e',
+            IdentityPoolId: 'us-east-2:e3012882-17ac-4646-8f71-2e6064c02c6a',
         });
         // Make the call to obtain credentials
         AWS.config.credentials.get(function () {
