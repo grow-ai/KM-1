@@ -233,9 +233,23 @@ var app = {
 
         const canvas = document.createElement('canvas');
 
-        const constraints = {
-            video: { width: { max: 480 }, height: { max: 640 } }
+        var constraints = {
+            video: {
+                width: { max: 480 },
+                height: { max: 640 },
+            }
         };
+        if (window.cordova.platformId === 'android') {
+            constraints = {
+                video: {
+                    width: { max: 480 },
+                    height: { max: 640 },
+                    facingMode: {
+                        exact: 'environment'
+                    }
+                }
+            };
+        }
 
         captureVideoButton.onclick = function () {
             navigator.mediaDevices.getUserMedia(constraints)
@@ -289,7 +303,7 @@ var app = {
                 var plant_label = document.getElementById("plant-label1");
                 plant_label.innerHTML = data["CustomLabels"][0]["Name"];
                 var certainty = document.getElementById("certainty1");
-                certainty.innerHTML = data["CustomLabels"][0]["Confidence"]
+                certainty.innerHTML = Math.round(data["CustomLabels"][0]["Confidence"]) + "%"
             }
         });
     },
