@@ -20,12 +20,12 @@
           "/*": [
             {
               "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
-              "count": 41,
+              "count": 40,
               "id": "config.xml"
             },
             {
               "xml": "<uses-feature android:name=\"android.hardware.camera2\" />",
-              "count": 39,
+              "count": 38,
               "id": "config.xml"
             },
             {

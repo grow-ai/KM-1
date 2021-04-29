@@ -233,23 +233,15 @@ var app = {
 
         const canvas = document.createElement('canvas');
 
-        var constraints = {
+        const constraints = {
             video: {
                 width: { max: 480 },
                 height: { max: 640 },
+                facingMode: {
+                    exact: 'environment'
+                }
             }
         };
-        if (window.cordova.platformId === 'android') {
-            constraints = {
-                video: {
-                    width: { max: 480 },
-                    height: { max: 640 },
-                    facingMode: {
-                        exact: 'environment'
-                    }
-                }
-            };
-        }
 
         captureVideoButton.onclick = function () {
             navigator.mediaDevices.getUserMedia(constraints)
