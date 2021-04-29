@@ -13,4 +13,6 @@
     <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera2" />
+    <uses-feature android:name="android.hardware.camera1" />
+    <uses-feature android:name="android.hardware.camera3" />
 </manifest>
