@@ -286,7 +286,8 @@ var app = {
                 Bytes: imageData
             },
             // ProjectVersionArn: 'arn:aws:rekognition:us-east-2:053765585733:project/grow-ai/version/grow-ai.2021-04-15T03.01.50/1618480910563',
-            ProjectVersionArn: 'arn:aws:rekognition:us-east-2:053765585733:project/grow-ai/version/grow-ai.2021-04-29T01.47.57/1619686077450'
+            // ProjectVersionArn: 'arn:aws:rekognition:us-east-2:053765585733:project/grow-ai/version/grow-ai.2021-04-29T01.47.57/1619686077450'
+            ProjectVersionArn: 'arn:aws:rekognition:us-east-2:053765585733:project/grow-ai/version/grow-ai.2021-04-29T01.52.36/1619686356298'
         };
         rekognition.detectCustomLabels(params, function (err, data) {
             if (err) console.log(err, err.stack); // an error occurred
