@@ -8,7 +8,7 @@
   },
   "installed_plugins": {
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "com.demo.app"
+      "PACKAGE_NAME": "com.growai.app"
     }
   },
   "dependent_plugins": {}

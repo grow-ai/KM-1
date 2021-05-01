@@ -237,11 +237,13 @@ var app = {
             video: {
                 width: { max: 480 },
                 height: { max: 640 },
-                facingMode: {
-                    exact: 'environment'
-                }
             }
         };
+        if (window.cordova.platformId == 'android') {
+            constraints['facingMode'] = {
+                exact: 'environment'
+            };
+        }
 
         captureVideoButton.onclick = function () {
             navigator.mediaDevices.getUserMedia(constraints)
@@ -288,12 +290,13 @@ var app = {
             // ProjectVersionArn: 'arn:aws:rekognition:us-east-2:053765585733:project/grow-ai/version/grow-ai.2021-04-15T03.01.50/1618480910563',
             ProjectVersionArn: 'arn:aws:rekognition:us-east-2:053765585733:project/grow-ai/version/grow-ai.2021-04-29T01.47.57/1619686077450'
         };
+        document.getElementById("plant-label1").innerHTML = 'processing...';
         rekognition.detectCustomLabels(params, function (err, data) {
             if (err) console.log(err, err.stack); // an error occurred
             else {
                 console.log(data);
                 var plant_label = document.getElementById("plant-label1");
-                plant_label.innerHTML = data["CustomLabels"][0]["Name"];
+                plant_label.innerHTML = data["CustomLabels"][0]["Name"].replace(/_/g, ' ');
                 var certainty = document.getElementById("certainty1");
                 certainty.innerHTML = Math.round(data["CustomLabels"][0]["Confidence"]) + "%"
             }
