@@ -6251,16 +6251,16 @@ input[type='button'].btn-block
 {
     position: relative;
 
-    display: flex;
-    flex-direction: column;
+    /* display: flex; */
+    /* flex-direction: column; */
 
     min-width: 0;
 
     word-wrap: break-word;
 
-    border: 1px solid rgba(0, 0, 0, .05);
+    border: 1px solid rgba(0, 0, 0, 1);
     border-radius: .375rem;
-    background-color: #fff;
+    background-color: #F0F0F0;
     background-clip: border-box;
 }
 .card > hr
@@ -6284,7 +6284,8 @@ input[type='button'].btn-block
     min-height: 1px;
     padding: 1.5rem;
 
-    flex: 1 1 auto;
+    /* flex: 1 1 auto; */
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .card-title
@@ -8759,7 +8760,7 @@ a.close.disabled
 
 .bg-primary
 {
-    background-color: #5e72e4 !important;
+    background-color: #C2D1D4 !important;
 }
 
 a.bg-primary:hover,
@@ -18883,7 +18884,7 @@ a.btn-icon-only
     margin-bottom: 30px;
 
     border: 0;
-    box-shadow: 0 0 2rem 0 rgba(136, 152, 170, .15);
+    /* box-shadow: 0 0 2rem 0 rgba(136, 152, 170, .15); */
 }
 
 .card-translucent
@@ -29791,6 +29792,7 @@ input.datetimepicker[data-color='yellow'] + .bootstrap-datetimepicker-widget.dro
     background: transparent;
 }
 
+/* Added */
 .padding
 {
     padding: 10px 50px;
@@ -29798,6 +29800,139 @@ input.datetimepicker[data-color='yellow'] + .bootstrap-datetimepicker-widget.dro
 
 .tab { text-indent:10px }
 
+
+.icon-shadow {
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 4px 1px 6px #fff, 0 0 0 #000, 0px 3px 6px transparent;
+}
+
+.display-5
+{
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.5;
+    vertical-align: middle;
+    align-self: center;
+}
+
+button.btn-nav
+{
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    height: 40px;
+    width: 40px;
+
+    display: inline-block;
+
+    padding: .375rem .75rem;
+
+    cursor: pointer;
+    -webkit-user-select: none;
+            user-select: none;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    text-align: center;
+    vertical-align: middle;
+
+    color: #bcc1c4;
+    border: 1px solid;
+    border-color: #fff;
+    border-radius: 15px;
+    box-shadow: -6px -6px 20px rgba(255, 255, 255, 0.6),
+      6px 6px 10px rgba(144, 153, 158, 0.2);
+}
+
+.btn-nav-primary
+{
+    border-color: #fff;
+    background-color: #f4f5f7;
+}
+.btn-nav-primary:hover
+{
+    border-color: #f4f5f7;
+    background-color: #fff;
+    box-shadow: -6px -6px 20px rgba(255, 255, 255, 0.8),
+      6px 6px 10px rgba(144, 153, 158, 0.2);
+}
+.btn-nav-primary:focus,
+.btn-nav-primary.focus
+{
+    color: #fff;
+    border-color: #f4f5f7;
+    background-color: #fff;
+}
+.btn-nav-primary.disabled,
+.btn-nav-primary:disabled
+{
+    color: #fff;
+    border-color: #f4f5f7;
+    background-color: #fff;
+}
+.btn-nav-primary:not(:disabled):not(.disabled):active,
+.btn-nav-primary:not(:disabled):not(.disabled).active,
+.show > .btn-nav-primary.dropdown-toggle
+{
+    color: #fff;
+    border-color: #fff;
+    background-color: #f4f5f7;
+}
+.btn-nav-primary:not(:disabled):not(.disabled):active:focus,
+.btn-nav-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-nav-primary.dropdown-toggle:focus
+{
+    box-shadow: 0 0 0 .2rem rgba(112, 131, 135, .5);
+}
+
+.ver-ny {
+  font-family: -apple-system-ui-serif, ui-serif, 'Georgia', serif;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.thick {
+  font-weight: bold;
+}
+
+.center {
+  /* border: 5px solid #FFFF00; */
+  display: flex;
+  justify-content: center; */
+}
+
+.center-fixed {
+  /* border: 5px solid #FFFF00; */
+  text-align: center;
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%); /* same as height! */
+}
+
+.left-div-padding {
+  padding: 5px 60px 5px 0px;
+}
+
+.right-div-padding {
+  padding: 5px 0px 5px 60px;
+}
+
+
 img.rounded-corners {
-  border-radius: 10px;
+    border-radius: 35px;
+    vertical-align:middle;
+}
+
+
+.scan-border {
+  border: 0.75rem solid #f0f0f0;
+  outline-offset: 20px;
+  padding: 0.25rem;
+  background-color: #f0f0f0;
+  box-shadow: -6px -6px 20px rgba(255, 255, 255, 0.6),
+    6px 6px 10px rgba(144, 153, 158, 0.2),
+    inset -6px -6px 10px rgba(255, 255, 255, 0.4),
+      inset 6px 6px 10px rgba(0, 0, 0, 0.15);
 }

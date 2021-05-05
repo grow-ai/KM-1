@@ -246,11 +246,11 @@ var app = {
         }
 
         captureVideoButton.onclick = function () {
+            console.log('weee');
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(handleSuccess)
                 .catch(handleError);
         };
-
 
         screenshotButton.onclick = function () {
             console.log('image 1');
