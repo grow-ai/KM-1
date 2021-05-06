@@ -249,10 +249,12 @@ var app = {
             video: {
                 width: { max: img.width },
                 height: { max: img.height },
-            }
+            },
+            
+
         };
         if (window.cordova.platformId == 'android') {
-            constraints['facingMode'] = {
+            constraints['video']['facingMode'] = {
                 exact: 'environment'
             };
         }
