@@ -304,7 +304,8 @@ var app = {
                 Bytes: imageData
             },
             // ProjectVersionArn: 'arn:aws:rekognition:us-east-2:053765585733:project/grow-ai/version/grow-ai.2021-04-15T03.01.50/1618480910563',
-            ProjectVersionArn: 'arn:aws:rekognition:us-east-2:053765585733:project/grow-ai/version/grow-ai.2021-04-29T01.47.57/1619686077450'
+            // ProjectVersionArn: 'arn:aws:rekognition:us-east-2:053765585733:project/grow-ai/version/grow-ai.2021-04-29T01.47.57/1619686077450'
+            ProjectVersionArn: 'arn:aws:rekognition:us-east-2:053765585733:project/grow-ai/version/grow-ai.2021-05-05T17.09.46/1620259786881'
         };
         document.getElementById("plant-label1").innerHTML = 'processing...';
         rekognition.detectCustomLabels(params, function (err, data) {
