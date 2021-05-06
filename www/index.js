@@ -198,6 +198,17 @@ function deleteAlbum(albumName) {
     });
 }
 
+// Navbar
+function ul(index) {
+	console.log("click!" + index);
+
+	var underlines = document.querySelectorAll(".underline");
+
+	for (var i = 0; i < underlines.length; i++) {
+		underlines[i].style.transform = "translate3d(" + index * 100 + "%,0,0)";
+	}
+}
+
 var app = {
     // Application Constructor
     initialize: function () {
@@ -233,10 +244,11 @@ var app = {
 
         const canvas = document.createElement('canvas');
 
+
         const constraints = {
             video: {
-                width: { max: 480 },
-                height: { max: 640 },
+                width: { max: img.width },
+                height: { max: img.height },
             }
         };
         if (window.cordova.platformId == 'android') {
@@ -256,6 +268,8 @@ var app = {
             console.log('image 1');
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
+            // canvas.width = img.width;
+            // canvas.height = img.height;
             canvas.getContext('2d').drawImage(video, 0, 0);
             // Other browsers will fall back to image/png
             img.src = canvas.toDataURL('image/png');

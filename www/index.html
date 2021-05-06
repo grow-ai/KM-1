@@ -14,9 +14,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <!DOCTYPE html>
-<html>
-
-<head>
+<html><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
@@ -37,17 +35,18 @@
   <script src="js/amazon-cognito-identity.min.js"></script> -->
   <!--<script src="js/aws-sdk-2.16.0.js"></script>-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aws-sdk/2.892.0/aws-sdk.js"></script>
-  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
 </head>
 
-<body>
     <!-- Header -->
-    <div class="header bg-primary pb-6">
+    <div class="header bg-primary pb-3">
       <div class="container-fluid">
-        <div class="header-body">
-          <div class="row align-items-center py-4">
+        <div class="header-body imgbox">
+          <div class="row align-items-center pt-3 pb-1">
             <div class="col-lg-12 col-12 center">
               <div class="left-div-padding">
                 <button type="button" class="btn-nav btn-nav-primary">
@@ -55,21 +54,38 @@
                 </button>
               </div>
               <div>
-                <h5 class="text-white ver-ny italic thick">Frank's OG Kush</h5>
+                <h4 class="text-white font-ny italic thick">Frank's OG Kush</h4>
               </div>
               <div class="right-div-padding">
                 <button type="button" class="btn-nav btn-nav-primary">
-                  <i class="fas fa-caret-left icon-shadow text-center display-5"></i>
+                  <i class="fas fa-edit icon-shadow text-center"></i>
                 </button>
               </div>
             </div>
           </div>
-          <div class="card card-body mx-auto card-stats">
-            <div class="col-xl-3 col-md-6">
+
+
+          <!-- Holder plant images -->
+          <div class="row align-items-center pt-5 pb-4">
+            <div class="col-lg-3 col-4 center shift-pos-a">
+              <div class="margin-incr-a">
+                <img class="rounded-img scan-border-small" src="assets\img\icons\common\plant_holder1.jpg" height="50" width="50">
+              </div>
+              <div class="margin-incr-a">
+                <img class="rounded-img scan-border-small" src="assets\img\icons\common\plant_holder2.jpg" height="50" width="50">
+              </div>
+              <div class="margin-incr-a">
+                <img class="rounded-img scan-border-small" src="assets\img\icons\common\plant_holder3.jpg" height="50" width="50">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 imgbox">
+            <div class="card card-body mx-auto card-stats card-transparent">
               <div class="text-center">
-                <img class="rounded-corners scan-border" src="assets\img\icons\common\cactus.jpg" height="400" width="300" id="profile-image1">
+                <img class="rounded-corners scan-border center-fit" src="assets\img\icons\common\cactus.jpg" id="profile-image1">
                 <p class="mt-3 mb-3 text-sm">
-                  <div class="text-nowrap">
+                  </p><div class="text-wrap">
                     Plant diagnostic:
                     <span id="plant-label1"></span>
                   </div>
@@ -77,28 +93,24 @@
                     Certainty:
                     <span id="certainty1"></span>
                   </div>
-                </p>
-                <button id="open-camera1" type="button" class="btn btn-primary" data-toggle="modal"
-                  data-target="#camera-modal1">
+                <p></p>
+                <button id="open-camera1" type="button" class="btn btn-primary" data-toggle="modal" data-target="#camera-modal1">
                   Scan
                 </button>
-                  <div class="modal fade" id="camera-modal1" tabindex="-1" role="dialog"
-                    aria-labelledby="camera-modal-label" aria-hidden="true">
+                  <div class="modal fade" id="camera-modal1" tabindex="-1" role="dialog" aria-labelledby="camera-modal-label" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="camera-modal-label">Take a Pic</h5>
-                            <button id="cordova-camera-cancel" type="button" class="close" data-dismiss="modal"
-                                aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
+                            <button id="cordova-camera-cancel" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
                             </button>
                         </div>
                         <div class="modal-body text-center rounded">
-                            <video id="video-container" autoplay></video>
+                            <video id="video-container" autoplay=""></video>
                         </div>
                         <div class="modal-footer">
-                            <button id="camera-capture1" type="button" class="btn btn-primary"
-                                data-dismiss="modal">Capture</button>
+                            <button id="camera-capture1" type="button" class="btn btn-primary" data-dismiss="modal">Capture</button>
                         </div>
                       </div>
                     </div>
@@ -126,14 +138,13 @@
             </div>
           </div>
         </div>
-      </div>
 
       <!-- Footer -->
       <footer class="footer pt-0">
         <div class="row align-items-center justify-content-lg-between">
           <div class="col-lg-6">
             <div class="copyright text-center  text-lg-left  text-muted">
-              &copy; 2021 <a href="https://brianfu.me" class="font-weight-bold ml-1" target="_blank">Grow.ai</a>
+              © 2021 <a href="https://brianfu.me" class="font-weight-bold ml-1" target="_blank">Grow.ai</a>
             </div>
           </div>
           <div class="col-lg-6">
@@ -142,15 +153,13 @@
                 <a href="https://brianfu.me" class="nav-link" target="_blank">Brian Fu</a>
               </li>
               <li class="nav-item">
-                <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link"
-                  target="_blank">MIT License</a>
+                <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
               </li>
             </ul>
           </div>
         </div>
       </footer>
-    </div>
-  </div>
+
   <!-- Argon Scripts -->
   <!-- Core -->
   <script src="./assets/vendor/jquery/dist/jquery.min.js"></script>
@@ -162,10 +171,12 @@
   <script src="./assets/vendor/chart.js/dist/Chart.min.js"></script>
   <script src="./assets/vendor/chart.js/dist/Chart.extension.js"></script>
   <!-- Argon JS -->
-  <script src="./assets/js/argon.js?v=1.2.0"></script>
+  <script src="./assets/js/argon.js?v=1.2.0"></script><div class="backdrop d-xl-none" data-action="sidenav-unpin" data-target="undefined"></div>
 
   <script type="text/javascript" src="cordova.js"></script>
   <script type="text/javascript" src="index.js"></script>
-</body>
 
+
+
+</body>
 </html>
